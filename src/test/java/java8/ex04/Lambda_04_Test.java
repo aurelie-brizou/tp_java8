@@ -90,8 +90,8 @@ public class Lambda_04_Test {
 		// vérifie que chaque compte a un solde à 1000.
 		// vérifie que chaque titulaire de compte a un age > 50
 		.forEach(a -> {
-			Assert.assertTrue(a.getBalance() == 1000);
-			Assert.assertTrue(a.getOwner().getAge() > 50);
+			assert a.getBalance() == 1000;
+			assert a.getOwner().getAge() > 50;
 		});
 	}
 	// end::test_filter_map_forEach[]
@@ -116,8 +116,8 @@ public class Lambda_04_Test {
 		// vérifie que chaque compte a un solde à 1000.
 		// vérifie que chaque titulaire de compte a un age > 50
 		Processor<Account> verifyAccount = a ->{
-			Assert.assertTrue(a.getBalance() == 1000);
-			Assert.assertTrue(a.getOwner().getAge() > 50);
+			assert a.getBalance() == 1000;
+			assert a.getOwner().getAge() > 50;
 		};
 
 		personFuncCollection.filter(filterByAge).map(mapToAccount).forEach(verifyAccount);
