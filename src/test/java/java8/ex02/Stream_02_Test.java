@@ -18,30 +18,31 @@ import static org.junit.Assert.*;
  */
 public class Stream_02_Test {
 
-    @Test
-    public void test_map() throws Exception {
+	@Test
+	public void test_map() throws Exception {
 
-        List<Order> orders = new Data().getOrders();
+		List<Order> orders = new Data().getOrders();
 
-        // Trouver la liste des clients ayant déjà passés une commande
-        List<Customer> result = null;
+		// Trouve la liste des clients ayant déjà passés une commande
+		List<Customer> result = orders.stream().map(c ->c.getCustomer()).distinct().collect(Collectors.toList());
+		;
 
-        assertThat(result, hasSize(2));
-    }
+		assertThat(result, hasSize(2));
+	}
 
-    @Test
-    public void test_flatmap() throws Exception {
+	@Test
+	public void test_flatmap() throws Exception {
 
-        List<Order> orders = new Data().getOrders();
+		List<Order> orders = new Data().getOrders();
 
-        // TODO calculer les statistiques sur les prix des pizzas vendues
-        // TODO utiliser l'opération summaryStatistics
-        IntSummaryStatistics result = null;
+		// calcule les statistiques sur les prix des pizzas vendues
+		// utilise l'opération summaryStatistics
+		IntSummaryStatistics result = orders.stream().flatMap(o -> o.getPizzas().stream()).collect(Collectors.summarizingInt(Pizza::getPrice));
 
 
-        assertThat(result.getSum(), is(10900L));
-        assertThat(result.getMin(), is(1000));
-        assertThat(result.getMax(), is(1375));
-        assertThat(result.getCount(), is(9L));
-    }
+		assertThat(result.getSum(), is(10900L));
+		assertThat(result.getMin(), is(1000));
+		assertThat(result.getMax(), is(1375));
+		assertThat(result.getCount(), is(9L));
+	}
 }
