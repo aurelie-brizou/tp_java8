@@ -12,42 +12,52 @@ import java8.data.Person;
  */
 public class Method_02_Test {
 
-    // tag::IDao[]
-    interface IDao {
-        List<Person> findAll();
+	// tag::IDao[]
+	interface IDao {
+		List<Person> findAll();
 
-        // TODO créer une méthode String format()
-        // TODO la méthode retourne une chaîne de la forme [<nb_personnes> persons]
-        // TODO exemple de résultat : "[14 persons]", "[30 persons]"
-    }
-    // end::IDao[]
+		/**
+		 * Méthode de type String format() implémentée via "default" dans l'interface
+		 * Utilisation de la méthode .size pour calculer le nombre de personne de la liste 
+		 * @return une chaîne de la forme [<nb_personnes> persons], exemple de résultat : "[14 persons]"
+		 */
+		default String format() {
+			List<Person> persons = findAll();
+			int sumPersons = persons.size();
+			return "[" + sumPersons + " persons]";
+		}
+	}
+	// end::IDao[]
 
-    // tag::DaoA[]
-    class DaoA implements IDao {
+	// tag::DaoA[]
+	class DaoA implements IDao {
 
-        List<Person> people = Data.buildPersonList(20);
+		List<Person> people = Data.buildPersonList(20);
 
-        @Override
-        public List<Person> findAll() {
-            return people;
-        }
+		@Override
+		public List<Person> findAll() {
+			return people;
+		}
 
-        // TODO redéfinir la méthode String format()
-        // TODO la méthode retourne une chaîne de la forme DaoA[<nb_personnes> persons]
-        // TODO exemple de résultat : "DaoA[14 persons]", "DaoA[30 persons]"
-        // TODO l'implémentation réutilise la méthode format() de l'interface
+		/**
+		 * Redéfinit la méthode String format(), l'implémentation réutilise la méthode format() de l'interface
+		 * @return une chaîne de la forme DaoA[<nb_personnes> persons] exemple de résultat : "DaoA[14 persons]"
+		 */
+		public String format() {
+			return "DaoA" + IDao.super.format();
+		}
 
-    }
-    // end::DaoA[]
+	}
+	// end::DaoA[]
 
-    @Test
-    public void test_daoA_format() throws Exception {
+	@Test
+	public void test_daoA_format() throws Exception {
 
-        DaoA daoA = new DaoA();
+		DaoA daoA = new DaoA();
 
-        // TODO invoquer la méthode format() pour que le test soit passant
-        String result = null;
+		// invoque la méthode format() pour que le test soit passant
+		String result = daoA.format();
 
-        "DaoA[20 persons]".equals(result);
-    }
+		"DaoA[20 persons]".equals(result);
+	}
 }
