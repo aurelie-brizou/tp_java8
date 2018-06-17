@@ -44,12 +44,10 @@ public class DateAndTime_02_Test {
 		// utilise la méthode parse
 		LocalDate result = LocalDate.parse("1990-01-10");
 
-
 		// valorise les différentes variables afin de rendre le test passant
 		int year = result.getYear();
 		Month month = result.getMonth();
 		int dayOfMonth = result.getDayOfMonth();
-
 
 		assertThat(year, is(1990));
 		assertThat(month, is(Month.JANUARY));
